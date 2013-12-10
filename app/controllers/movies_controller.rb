@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
   # GET /movies/1.json
   def show
       @showtimes = @movie.showtimes
-      @showtimes = @movie.showtimes.new
+      @showtime = @movie.showtimes.new
   end
 
   # GET /movies/new
@@ -26,15 +26,20 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.json
   def create
-    @movie = Movie.find(params[:movie_id])
-    @showtime = @movie.showtimes.new(showtime_params)
+    @movie = Movie.new(movie_params)
 
-    if @showtime.save
-      redirect_to @showtime.movie, notice: 'Showtime was successfully created.'
-    else
-      redirect_to @showtime.movie, alert: 'Showtime was not successfully created'
+    respond_to do |format|
+      if @movie.save
+        format.html { redirect_to @movie, notice: 'Movie was successfully created.'}
+        format.json { render action: 'show', status: :created, location: @movie }
+      else
+        format.html { render action: 'new' }
+        format.json { rnder json: @movie.errors, status :unprocessable_entity}
+      end
     end
   end
+
+
 
   # PATCH/PUT /movies/1
   # PATCH/PUT /movies/1.json
