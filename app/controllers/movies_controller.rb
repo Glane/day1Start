@@ -34,7 +34,7 @@ class MoviesController < ApplicationController
         format.json { render action: 'show', status: :created, location: @movie }
       else
         format.html { render action: 'new' }
-        format.json { rnder json: @movie.errors, status :unprocessable_entity}
+        format.json { render json: @movie.errors, status: :unprocessable_entity}
       end
     end
   end
