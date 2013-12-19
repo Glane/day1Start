@@ -16,6 +16,13 @@ class Movie < ActiveRecord::Base
   		rotten_finder.ratings.audience_score
   	end
   end
+
+  def self.average_rating
+  	scores = self.all.collect do |movie|
+  		movie.audience_rating
+  	end
+  	scores.compact.sum/scores.length
+  end
   
   def snippet
     description.to_s.truncate 50
